@@ -20,4 +20,8 @@ public class Cassonetto {
         this.tess = tess;
     }
     
+    public int getIdTessera(){
+        return tess.getId();
+    }
+    
 }
