@@ -1,10 +1,10 @@
 Default: il server aspetta la richiesta del client (int che indentifica la richiesta)
 
 Richiesta n. 1: creazione tessera
-    Il server trasmette un Object, ovvero la tessera, salvandola anche in locale
+    Il server trasmette un int, ovvero l'id della tessera, salvandola anche in locale
 
 Richiesta n. 2: disattivazione tessera
-    Il client trasmette un Object, la tessera, e il server procede a disattivarla in locale
+    Il client trasmette la tessera, e il server procede a disattivarla in locale
 
 Richiesta n. 3: controllo tessera
     Il client trasmette la tessera e il server rimanda un boolean, in base allo stato della tessera
