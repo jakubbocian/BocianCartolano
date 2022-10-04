@@ -55,6 +55,7 @@ public class ClientCassonetto {
         try {
             client = new ClientCassonetto("127.0.0.1", 12345);
             cassonetti.add(new Tessera(client.registra()));
+            System.out.println(((Cassonetto)(cassonetti.get(0))).getIdTessera());
             client.closeSocket();
         }
         catch(SocketException exception) {
