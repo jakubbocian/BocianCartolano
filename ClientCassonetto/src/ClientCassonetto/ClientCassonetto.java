@@ -50,6 +50,7 @@ public class ClientCassonetto {
     }
     
     public static void main(String[] args) {
+        
         ArrayList cassonetti = new ArrayList();
         ClientCassonetto client;
         try {

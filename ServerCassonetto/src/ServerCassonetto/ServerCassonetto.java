@@ -18,7 +18,7 @@ public class ServerCassonetto extends Thread{
     }
 
     public void run() {
-        byte[] buffer = new byte[1];
+        byte[] buffer = new byte[1024];
         ByteBuffer data;
         DatagramPacket answer, request;
         
@@ -68,7 +68,7 @@ public class ServerCassonetto extends Thread{
         int c;
 
         try {
-            ServerCassonetto server = new ServerCassonetto(1234);
+            ServerCassonetto server = new ServerCassonetto(12345);
             server.start();
             c = System.in.read();
             server.interrupt();
