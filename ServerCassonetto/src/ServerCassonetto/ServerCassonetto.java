@@ -5,6 +5,8 @@ import java.net.*;
 import java.nio.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ServerCassonetto extends Thread {
 
@@ -40,7 +42,7 @@ public class ServerCassonetto extends Thread {
                     data = ByteBuffer.wrap(buffer, 0, 4);
                     data.putInt(creaTessera());
                     answer = new DatagramPacket(data.array(), 4, request.getAddress(),
-                    request.getPort());
+                            request.getPort());
                     socket.send(answer);
 
                 } else if (richiesta == 2) {
@@ -86,8 +88,8 @@ public class ServerCassonetto extends Thread {
 
                     boolean ricevuta = false;
                     int id_controlla = -1;
-                    int ris=1;
-                    
+                    int ris = 1;
+
                     while (!ricevuta) {
 
                         System.out.println("Attendo tessera da controllare...");
@@ -116,8 +118,7 @@ public class ServerCassonetto extends Thread {
 
                     data = ByteBuffer.wrap(buffer, 0, 4);
                     data.putInt(ris);
-                    answer = new DatagramPacket(data.array(), 4, request.getAddress(),
-                    request.getPort());
+                    answer = new DatagramPacket(data.array(), 4, request.getAddress(), request.getPort());
                     socket.send(answer);
 
                 }
@@ -148,6 +149,24 @@ public class ServerCassonetto extends Thread {
         }
 
         return true;
+
+    }
+
+    public void ack(InetAddress ip, int port) {
+
+        byte[] buffer = new byte[1];
+        ByteBuffer data;
+        DatagramPacket answer;
+        try {
+            
+            data = ByteBuffer.wrap(buffer, 0, 1);
+            data.put((byte)1);
+            answer = new DatagramPacket(data.array(), 1, ip, port);
+            socket.send(answer);
+            
+        } catch (IOException ex) {
+            Logger.getLogger(ServerCassonetto.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
