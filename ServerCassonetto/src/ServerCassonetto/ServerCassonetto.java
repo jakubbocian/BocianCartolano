@@ -6,21 +6,15 @@ import java.nio.*;
 import java.util.ArrayList;
 
 public class ServerCassonetto extends Thread{
-    private int numTessera = 0;
-    private ArrayList tessere = new ArrayList();
-
     
-    
-    private int generaId(){
-        return numTessera++;
-    }
+    private ArrayList <Tessera> tessere = new ArrayList();
 
     private DatagramSocket socket;
     
     // costruttore (richiede il numero di porta del servizio)
     public ServerCassonetto(int port) throws SocketException {
         socket = new DatagramSocket(port);
-        socket.setSoTimeout(1000); // 1000ms = 1s
+        socket.setSoTimeout(5000); // 1000ms = 1s
     }
 
     public void run() {
@@ -29,6 +23,7 @@ public class ServerCassonetto extends Thread{
         DatagramPacket answer, request;
         
         int idTessera;
+        System.out.println("Attendo richiesta....");
         
         while (!Thread.interrupted()) {
             try {
@@ -37,7 +32,21 @@ public class ServerCassonetto extends Thread{
                 socket.receive(request);
                 // incapsulazione del buffer della richiesta in un byte-buffer della dimensione di 4 valori float
                 data = ByteBuffer.wrap(buffer, 0, 1);
-                System.out.println("Richiesta n." + data.get());
+                
+                int richiesta = data.get();
+               
+                
+                if(richiesta == 1){
+                    
+                    System.out.println("Richiesta 1");
+                    data = ByteBuffer.wrap(buffer, 0, 4);
+                    data.putInt(creaTessera());
+                    answer = new DatagramPacket( data.array(), 4, request.getAddress(),
+                    request.getPort()); 
+                    socket.send(answer);
+                    
+                }
+                
                 /*
                 // incapsulazione del buffer della risposta in un byte-buffer della dimensione di 1 valore double
                 data = ByteBuffer.wrap(buffer, 0, 8);
@@ -59,17 +68,43 @@ public class ServerCassonetto extends Thread{
         int c;
 
         try {
-            ServerCassonetto server = new ServerCassonetto(12345);
+            ServerCassonetto server = new ServerCassonetto(1234);
             server.start();
             c = System.in.read();
             server.interrupt();
             server.join();
         }
         catch (IOException exception) {
-            System.err.println("Errore!");
+            System.err.println("IO!");
         }
         catch (InterruptedException exception) {
-            System.err.println("Errore!");
+            System.err.println("IE!");
         }
+    }
+    
+    public int creaTessera() {
+
+        Tessera t = new Tessera(this.tessere.size() + 1);
+        tessere.add(t);
+        return t.getId();
+
+    }
+
+    public boolean checkTessera(int id) {
+
+        for (Tessera t : tessere) {
+
+            if (t.getId() == id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void eliminaTessera(int id) {
+
+        tessere.remove(id);
+
     }
 }
