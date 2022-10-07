@@ -1,0 +1,2 @@
+netstat -ano | findstr :porta
+taskkill /pid porta /F
