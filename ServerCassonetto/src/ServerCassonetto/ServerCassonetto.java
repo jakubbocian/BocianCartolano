@@ -27,7 +27,7 @@ public class ServerCassonetto {
 
     public ServerCassonetto(int port) throws SocketException {
 
-        DatagramSocket socket = new DatagramSocket(port);
+        socket = new DatagramSocket(port);
         socket.setSoTimeout(2000);
 
     }
@@ -38,14 +38,16 @@ public class ServerCassonetto {
         byte[] buffer = new byte[1];
         ByteBuffer data;
         int reqtype;
-
+        int c;
+        
         try {
             ServerCassonetto server = new ServerCassonetto(12345);
-
+            c = System.in.read();
+            
             while (true) {
-
+                
                 request = new DatagramPacket(buffer, buffer.length);
-
+                
                 server.socket.receive(request);
                 data = ByteBuffer.wrap(buffer, 0, 4);
                 
@@ -59,9 +61,9 @@ public class ServerCassonetto {
             }
 
         } catch (SocketException ex) {
-            System.err.println("Errore!");
+            System.err.println("Erroreeee!");
         } catch (IOException ex) {
-
+            
         }
 
     }
