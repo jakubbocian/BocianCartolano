@@ -81,6 +81,7 @@ public class ClientCassonetto {
         datagram = new DatagramPacket(buffer, buffer.length);
         socket.receive(datagram);
         in = ByteBuffer.wrap(datagram.getData());
+        System.out.println("ricevuto: " + in.get());
         if(in.get()==1)
             return true;
         return false;
