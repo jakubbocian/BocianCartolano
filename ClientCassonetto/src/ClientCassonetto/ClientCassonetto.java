@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.nio.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,7 +59,7 @@ public class ClientCassonetto {
         byte[] buffer;
 
         out = ByteBuffer.allocate(1);
-        out.put((byte) 2);
+        out.put((byte) 3);
         address = InetAddress.getByName(IP_address);
         datagram = new DatagramPacket(out.array(), 1, address, UDP_port);
         socket.send(datagram);
@@ -92,7 +93,7 @@ public class ClientCassonetto {
         byte[] buffer;
 
         out = ByteBuffer.allocate(1);
-        out.put((byte) 3);
+        out.put((byte) 2);
         address = InetAddress.getByName(IP_address);
         datagram = new DatagramPacket(out.array(), 1, address, UDP_port);
         socket.send(datagram);
@@ -123,7 +124,8 @@ public class ClientCassonetto {
         Tessera t = null;
         ClientCassonetto client;
         int scelta = 0;
-
+        Scanner input = new Scanner(System.in); 
+        
         try {
             client = new ClientCassonetto("127.0.0.1", 12345);
             do {
@@ -132,11 +134,7 @@ public class ClientCassonetto {
                 System.out.println("2. Disattiva tessera");
                 System.out.println("3. Apri cassonetto");
                 System.out.println("4. Uscita");
-                try {
-                    scelta = System.in.read();
-                } catch (IOException ex) {
-                    System.err.println("Errore di input!");
-                }
+                scelta = input.nextInt();
                 try {
                     switch (scelta) {
                         case 1:
