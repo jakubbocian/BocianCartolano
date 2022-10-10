@@ -43,6 +43,7 @@ public class ServerCassonetto extends Thread {
                     data.putInt(creaTessera());
                     answer = new DatagramPacket(data.array(), 4, request.getAddress(),request.getPort());
                     socket.send(answer);
+                    System.out.println("soddisfatta\n");
 
                 } else if (richiesta == 2) {
 
@@ -75,6 +76,7 @@ public class ServerCassonetto extends Thread {
                                 t.setValida(false);
                                 ack(request_t.getAddress(), request_t.getPort());
                                 ricevuta = true;
+                                System.out.println("soddisfatta");
                             }
 
                         }
@@ -85,7 +87,7 @@ public class ServerCassonetto extends Thread {
 
                     System.out.println("Richiesta 3...");
 
-                    byte[] buffer_t = new byte[1];
+                    byte[] buffer_t = new byte[4];
                     ByteBuffer data_t;
                     DatagramPacket request_t;
 
@@ -113,8 +115,9 @@ public class ServerCassonetto extends Thread {
                                 if (!t.isValida() || !controlla_data(t.getU_apertura())) {
                                     ris = 0;
                                 }
-
+                                
                                 ricevuta = true;
+                                
                             }
 
                         }
@@ -122,9 +125,11 @@ public class ServerCassonetto extends Thread {
                     }
 
                     data = ByteBuffer.wrap(buffer, 0, 4);
+                    System.out.println("RIS: " + ris);
                     data.putInt(ris);
                     answer = new DatagramPacket(data.array(), 4, request.getAddress(), request.getPort());
                     socket.send(answer);
+                    System.out.println("soddisfatta");
 
                 }
 
