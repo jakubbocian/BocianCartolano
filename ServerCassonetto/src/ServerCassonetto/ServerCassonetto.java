@@ -41,8 +41,7 @@ public class ServerCassonetto extends Thread {
                     System.out.println("Richiesta 1...");
                     data = ByteBuffer.wrap(buffer, 0, 4);
                     data.putInt(creaTessera());
-                    answer = new DatagramPacket(data.array(), 4, request.getAddress(),
-                            request.getPort());
+                    answer = new DatagramPacket(data.array(), 4, request.getAddress(),request.getPort());
                     socket.send(answer);
 
                 } else if (richiesta == 2) {
@@ -72,7 +71,9 @@ public class ServerCassonetto extends Thread {
                         for (Tessera t : tessere) {
 
                             if (t.getId() == id_disattiva) {
+                                
                                 t.setValida(false);
+                                ack(request_t.getAddress(), request_t.getPort());
                                 ricevuta = true;
                             }
 
