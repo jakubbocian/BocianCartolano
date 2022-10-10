@@ -55,6 +55,8 @@ public class ServerCassonetto extends Thread {
 
                     boolean ricevuta = false;
                     int id_disattiva = -1;
+                    
+                    ack(request.getAddress(), request.getPort());
 
                     while (!ricevuta) {
 
@@ -89,7 +91,9 @@ public class ServerCassonetto extends Thread {
                     boolean ricevuta = false;
                     int id_controlla = -1;
                     int ris = 1;
-
+                    
+                    ack(request.getAddress(), request.getPort());
+                    
                     while (!ricevuta) {
 
                         System.out.println("Attendo tessera da controllare...");
