@@ -129,8 +129,8 @@ public class ClientCassonetto {
             do {
                 System.out.println("--MENU--");
                 System.out.println("1. Crea tessera");
-                System.out.println("2. Apri cassonetto");
-                System.out.println("3. Disattiva tessera");
+                System.out.println("2. Disattiva tessera");
+                System.out.println("3. Apri cassonetto");
                 System.out.println("4. Uscita");
                 try {
                     scelta = System.in.read();
@@ -144,6 +144,16 @@ public class ClientCassonetto {
                             System.out.println("Tessera creata, ID tessera: " + t.getId());
                             break;
                         case 2:
+                            if (t == null) {
+                                System.out.println("Nessuna tessera rilevata!");
+                                break;
+                            }
+                            if(client.disattiva(t))
+                                System.out.println("Tessera disattivita");
+                            else
+                                System.out.println("Non è stato possibile disattivare la tessera");
+                            break;
+                        case 3:
                             if (t == null) {
                                 System.out.println("Nessuna tessera rilevata!");
                                 break;
