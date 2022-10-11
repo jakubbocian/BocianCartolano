@@ -41,7 +41,7 @@ public class ServerCassonetto extends Thread {
                     System.out.println("Richiesta 1...");
                     data = ByteBuffer.wrap(buffer, 0, 4);
                     data.putInt(creaTessera());
-                    answer = new DatagramPacket(data.array(), 4, request.getAddress(),request.getPort());
+                    answer = new DatagramPacket(data.array(), 4, request.getAddress(), request.getPort());
                     socket.send(answer);
                     System.out.println("soddisfatta\n");
 
@@ -55,7 +55,7 @@ public class ServerCassonetto extends Thread {
 
                     boolean ricevuta = false;
                     int id_disattiva = -1;
-                    
+
                     ack(request.getAddress(), request.getPort());
 
                     while (!ricevuta) {
@@ -72,7 +72,7 @@ public class ServerCassonetto extends Thread {
                         for (Tessera t : tessere) {
 
                             if (t.getId() == id_disattiva) {
-                                
+
                                 t.setValida(false);
                                 ack(request_t.getAddress(), request_t.getPort());
                                 ricevuta = true;
@@ -94,9 +94,9 @@ public class ServerCassonetto extends Thread {
                     boolean ricevuta = false;
                     int id_controlla = -1;
                     int ris = 1;
-                    
+
                     ack(request.getAddress(), request.getPort());
-                    
+
                     while (!ricevuta) {
 
                         System.out.println("Attendo tessera da controllare...");
@@ -114,21 +114,20 @@ public class ServerCassonetto extends Thread {
 
                                 if (!t.isValida() || !controlla_data(t.getU_apertura())) {
                                     ris = 0;
-                                }
-                                
+                                }else
+                                    t.setU_apertura();
+
                                 ricevuta = true;
-                                
                             }
-
                         }
-
                     }
 
-                    data = ByteBuffer.wrap(buffer, 0, 4);
-                    System.out.println("RIS: " + ris);
-                    data.putInt(ris);
-                    answer = new DatagramPacket(data.array(), 4, request.getAddress(), request.getPort());
+                    data = ByteBuffer.wrap(buffer, 0, 1);
+                    data.put((byte) ris);
+                    System.out.println("Ris: " + ris);
+                    answer = new DatagramPacket(data.array(), 1, request.getAddress(),request.getPort());
                     socket.send(answer);
+                    //ack(request.getAddress(), request.getPort());
                     System.out.println("soddisfatta");
 
                 }
@@ -153,8 +152,10 @@ public class ServerCassonetto extends Thread {
          */
 
         int differenza_secondi = ((int) time_difference / 1000) % 60;
-
-        if (differenza_secondi < 7) {
+        
+        System.out.println("Diff secondi: " + (differenza_secondi*-1));
+        
+        if ((differenza_secondi*-1) < 3) {
             return false;
         }
 
@@ -168,12 +169,30 @@ public class ServerCassonetto extends Thread {
         ByteBuffer data;
         DatagramPacket answer;
         try {
-            
+
             data = ByteBuffer.wrap(buffer, 0, 1);
-            data.put((byte)1);
+            data.put((byte) 1);
             answer = new DatagramPacket(data.array(), 1, ip, port);
             socket.send(answer);
-            
+
+        } catch (IOException ex) {
+            Logger.getLogger(ServerCassonetto.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public void ackk(InetAddress ip, int port) {
+
+        byte[] buffer = new byte[1];
+        ByteBuffer data;
+        DatagramPacket answer;
+        try {
+
+            data = ByteBuffer.wrap(buffer, 0, 1);
+            data.put((byte) 2);
+            answer = new DatagramPacket(data.array(), 1, ip, port);
+            socket.send(answer);
+
         } catch (IOException ex) {
             Logger.getLogger(ServerCassonetto.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -77,14 +77,15 @@ public class ClientCassonetto {
         datagram = new DatagramPacket(out.array(), 4, address, UDP_port);
         socket.send(datagram);
         
+        int ris;
+        
         buffer = new byte[1];
         datagram = new DatagramPacket(buffer, buffer.length);
         socket.receive(datagram);
         in = ByteBuffer.wrap(datagram.getData());
-        System.out.println("ricevuto: " + in.get());
-        if(in.get()==1)
-            return true;
-        return false;
+        ris = in.get();
+        System.out.println("ricevuto: " + ris);
+        return ris==1;
     }
     
     public boolean disattiva(Tessera t) throws IOException{

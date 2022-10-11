@@ -18,7 +18,7 @@ public class Tessera {
     public Tessera(int id) {
         this.id = id;
         this.valida = true;
-        this.u_apertura = new Date(2000, 1, 1);
+        this.u_apertura = new Date();
     }
 
     public boolean isValida() {
