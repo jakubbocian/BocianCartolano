@@ -7,5 +7,5 @@ Richiesta n. 2: disattivazione tessera
     Il client trasmette la tessera, e il server procede a disattivarla in locale
 
 Richiesta n. 3: controllo tessera
-    Il client trasmette la tessera e il server rimanda un boolean, in base allo stato della tessera
+    Il client trasmette la tessera e il server rimanda un int (1 o 0), in base allo stato della tessera
 
