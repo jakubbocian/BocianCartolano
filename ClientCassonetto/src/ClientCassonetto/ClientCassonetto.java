@@ -149,7 +149,7 @@ public class ClientCassonetto {
                                 break;
                             }
                             if(client.disattiva(t))
-                                System.out.println("Tessera disattivita");
+                                System.out.println("Tessera disattivata");
                             else
                                 System.out.println("Non è stato possibile disattivare la tessera");
                             break;

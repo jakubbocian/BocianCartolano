@@ -127,7 +127,6 @@ public class ServerCassonetto extends Thread {
                     System.out.println("Ris: " + ris);
                     answer = new DatagramPacket(data.array(), 1, request.getAddress(),request.getPort());
                     socket.send(answer);
-                    //ack(request.getAddress(), request.getPort());
                     System.out.println("soddisfatta");
 
                 }
@@ -144,9 +143,10 @@ public class ServerCassonetto extends Thread {
         Date current_date = new Date();
 
         long time_difference = d.getTime() - current_date.getTime();
+        
         /*int differenza_ore = ((int)time_difference / (1000*60*60)) % 24;  
         
-        if(differenza_ore < 72)
+        if((differenza_ore*-1) < 72)
             return false;
         
          */
@@ -181,23 +181,6 @@ public class ServerCassonetto extends Thread {
 
     }
 
-    public void ackk(InetAddress ip, int port) {
-
-        byte[] buffer = new byte[1];
-        ByteBuffer data;
-        DatagramPacket answer;
-        try {
-
-            data = ByteBuffer.wrap(buffer, 0, 1);
-            data.put((byte) 2);
-            answer = new DatagramPacket(data.array(), 1, ip, port);
-            socket.send(answer);
-
-        } catch (IOException ex) {
-            Logger.getLogger(ServerCassonetto.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
 
     public static void main(String[] args) {
         int c;
